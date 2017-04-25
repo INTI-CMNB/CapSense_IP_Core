@@ -1,0 +1,7 @@
+Board=kefir_i_hx4k
+Project=kefir_capsense
+Top=Kefir_Capsense
+Goal=Area_Strong
+Include=CapSense,capsense
+Source=kefir_capsense.vhdl
+

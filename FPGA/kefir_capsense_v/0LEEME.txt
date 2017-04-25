@@ -1,0 +1,14 @@
+Ejemplo de uso de los botones CapSense de la Kéfir I.
+El ejemplo puede mostrar en los LEDs cuál botón está presionado (DIRECT=1) o
+usarlos como botones tipo toggle (DIRECT=0).
+Está pensado para un oscilador de 24 MHz.
+
+Para iCECube2:
+
+1) Editar el Makefile y modificar SET_ICE_BASE para que apunte a donde está
+instalado iCECube2.
+2) Correr "make"
+
+Para IceStorm:
+
+Correr "make -f icestorm.mak"
