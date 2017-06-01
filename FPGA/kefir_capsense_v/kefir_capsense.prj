@@ -1,8 +1,10 @@
-add_file -verilog -lib work ../capsense.v
-add_file -verilog -lib work ../capsense_sys.v
+add_file -verilog -lib work ../../../capsense.v
+add_file -verilog -lib work ../../../capsense_sys.v
 add_file -verilog -lib work ../kefir_capsense.v
 
 impl -add Target_Implmnt -type fpga
+
+set_option -top_module "Kefir_Capsense"
 
 # Implementation attributes
 set_option -vlog_std v2001

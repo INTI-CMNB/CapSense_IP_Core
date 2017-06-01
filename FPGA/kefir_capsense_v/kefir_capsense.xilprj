@@ -2,7 +2,7 @@ Board=kefir_i_hx4k
 Project=kefir_capsense
 Top=Kefir_Capsense
 Goal=Area_Strong
-Source=capsense.v
-Source=capsense_sys.v
+Source=../../capsense.v
+Source=../../capsense_sys.v
 Source=kefir_capsense.v
 

@@ -15,8 +15,8 @@
 ----                                                                      ----
 ------------------------------------------------------------------------------
 ----                                                                      ----
----- Copyright (c) 2016 Salvador E. Tropea <salvador en inti.gob.ar>      ----
----- Copyright (c) 2016 Instituto Nacional de Tecnología Industrial       ----
+---- Copyright (c) 2016-2017 Salvador E. Tropea <salvador en inti.gob.ar> ----
+---- Copyright (c) 2016-2017 Instituto Nacional de Tecnología Industrial  ----
 ----                                                                      ----
 ---- This file can be distributed under the terms of the GPL 2.0 license  ----
 ---- or newer.                                                            ----
@@ -51,10 +51,26 @@ package Devices is
          rst_i      : in    std_logic; -- System reset
          ena_i      : in    std_logic; -- Frequency used to sample the buttons
          start_i    : in    std_logic; -- Start a sampling sequence
-         buttons_io : inout std_logic_vector(N-1 downto 0); -- I/O pins
+         buttons_i  : in    std_logic_vector(N-1 downto 0); -- Input pins
+         but_oe_o   : out   std_logic;                      -- Cap. discharge
          sampled_o  : out   std_logic_vector(N-1 downto 0); -- Last sample result
          debug_o    : out   std_logic_vector(N-1 downto 0)  -- Used to measure the button timing
            );
    end component CapSense;
+
+   component CapSense_Sys is
+      generic(
+         DIRECT    : std_logic:='1';
+         FREQUENCY : integer:=24;
+         N         : integer range 2 to 8:=4);
+      port(
+         clk_i       : in    std_logic; -- System clock
+         rst_i       : in    std_logic; -- System reset
+         capsense_i  : in    std_logic_vector(N-1 downto 0); -- Input pins
+         capsense_o  : out   std_logic; -- Cap. discharge
+         buttons_o   : out   std_logic_vector(N-1 downto 0); -- Last sample result
+         debug_o     : out   std_logic_vector(N-1 downto 0)  -- Used to measure the button timing
+           );
+   end component CapSense_Sys;
 end package Devices;
 

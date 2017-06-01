@@ -15,8 +15,8 @@
 ----                                                                      ----
 ------------------------------------------------------------------------------
 ----                                                                      ----
----- Copyright (c) 2016 Salvador E. Tropea <salvador en inti.gob.ar>      ----
----- Copyright (c) 2016 Instituto Nacional de Tecnología Industrial       ----
+---- Copyright (c) 2016-2017 Salvador E. Tropea <salvador en inti.gob.ar> ----
+---- Copyright (c) 2016-2017 Instituto Nacional de Tecnología Industrial  ----
 ----                                                                      ----
 ---- This file can be distributed under the terms of the GPL 2.0 license  ----
 ---- or newer.                                                            ----
@@ -51,7 +51,8 @@ entity CapSense is
       rst_i      : in    std_logic; -- System reset
       ena_i      : in    std_logic; -- Frequency used to sample the buttons
       start_i    : in    std_logic; -- Start a sampling sequence
-      buttons_io : inout std_logic_vector(N-1 downto 0); -- I/O pins
+      buttons_i  : in    std_logic_vector(N-1 downto 0); -- Input pins
+      but_oe_o   : out   std_logic;                      -- Cap. discharge
       sampled_o  : out   std_logic_vector(N-1 downto 0); -- Last sample result
       debug_o    : out   std_logic_vector(N-1 downto 0)  -- Used to measure the button timing
         );
@@ -65,9 +66,9 @@ architecture RTL of CapSense is
    signal btns_r : std_logic_vector(N-1 downto 0);
 begin
    -- Keep the capacitors discharged while we are idle
-   buttons_io <= (others => '0') when state=idle else (others => 'Z');
+   but_oe_o <= '1' when state=idle else '0';
    -- Used to measure the buttons timing
-   debug_o    <= (others => '1') when state=idle else buttons_io;
+   debug_o  <= (others => '1') when state=idle else buttons_i;
 
    do_fsm:
    process (clk_i)
@@ -85,15 +86,15 @@ begin
                  when sampling =>
                       -- Sample the capacitors at the ena_i rate
                       -- If any of the capacitors is charged stop waiting
-                      if ena_i='1' and buttons_io/=ALL_0 then
+                      if ena_i='1' and buttons_i/=ALL_0 then
                          state  <= do_sample;
                       end if;
                  when others => -- do_sample
                       -- We wait 1 more cycle to mask small differences between
                       -- buttons. Pressed buttons have big differeneces.
-                      if ena_i='1' then -- For debug: and buttons_io=ALL_1 then
+                      if ena_i='1' then -- For debug: and buttons_i=ALL_1 then
                          -- The "pressed" buttons are the ones that stay charging
-                         btns_r <= not(buttons_io);
+                         btns_r <= not(buttons_i);
                          state  <= idle;
                       end if;
             end case;

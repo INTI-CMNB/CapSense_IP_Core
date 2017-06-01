@@ -65,7 +65,8 @@ entity Kefir_Capsense is
 end entity Kefir_Capsense;
 
 architecture TopLevel of Kefir_Capsense is
-   constant DIRECT : boolean:=true; -- Direct status, else: toggle
+   constant DIRECT : std_logic:='1'; -- Direct status, else: toggle
+   signal discharge : std_logic;
 begin
    SS_B <= '1'; -- Disable the SPI memory
 
@@ -74,10 +75,11 @@ begin
       port map(
          clk_i => CLK,
          rst_i => '0',
-         capsense_io(0) => BTN1,
-         capsense_io(1) => BTN2,
-         capsense_io(2) => BTN3,
-         capsense_io(3) => BTN4,
+         capsense_i(0) => BTN1,
+         capsense_i(1) => BTN2,
+         capsense_i(2) => BTN3,
+         capsense_i(3) => BTN4,
+         capsense_o => discharge,
          buttons_o(0) => LED1,
          buttons_o(1) => LED2,
          buttons_o(2) => LED3,
@@ -86,5 +88,9 @@ begin
          debug_o(1) => ARDU01,
          debug_o(2) => ARDU02,
          debug_o(3) => ARDU03);
+   BTN1 <= '0' when discharge='1' else 'Z';
+   BTN2 <= '0' when discharge='1' else 'Z';
+   BTN3 <= '0' when discharge='1' else 'Z';
+   BTN4 <= '0' when discharge='1' else 'Z';
 end architecture TopLevel; -- Entity: Kefir_Capsense
 

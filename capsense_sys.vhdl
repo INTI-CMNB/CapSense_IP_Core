@@ -16,8 +16,8 @@
 ----                                                                      ----
 ------------------------------------------------------------------------------
 ----                                                                      ----
----- Copyright (c) 2016 Salvador E. Tropea <salvador en inti.gob.ar>      ----
----- Copyright (c) 2016 Instituto Nacional de Tecnología Industrial       ----
+---- Copyright (c) 2016-2017 Salvador E. Tropea <salvador en inti.gob.ar> ----
+---- Copyright (c) 2016-2017 Instituto Nacional de Tecnología Industrial  ----
 ----                                                                      ----
 ---- This file can be distributed under the terms of the GPL 2.0 license  ----
 ---- or newer.                                                            ----
@@ -49,13 +49,14 @@ use IEEE.math_real.all;
 
 entity CapSense_Sys is
    generic(
-      DIRECT    : boolean:=true;
+      DIRECT    : std_logic:='1';
       FREQUENCY : integer:=24;
       N         : integer range 2 to 8:=4);
    port(
       clk_i       : in    std_logic; -- System clock
       rst_i       : in    std_logic; -- System reset
-      capsense_io : inout std_logic_vector(N-1 downto 0); -- I/O pins
+      capsense_i  : in    std_logic_vector(N-1 downto 0); -- Input pins
+      capsense_o  : out   std_logic; -- Cap. discharge
       buttons_o   : out   std_logic_vector(N-1 downto 0); -- Last sample result
       debug_o     : out   std_logic_vector(N-1 downto 0)  -- Used to measure the button timing
         );
@@ -105,17 +106,18 @@ begin
          rst_i => rst_i,
          ena_i => clkSamp,
          start_i => clkPoll,
-         buttons_io => capsense_io,
+         buttons_i => capsense_i,
+         but_oe_o => capsense_o,
          sampled_o => cur_btns,
          debug_o => debug_o);
 
    push_buttons:
-   if DIRECT generate
+   if DIRECT='1' generate
       buttons_o <= cur_btns;
    end generate push_buttons;
 
    toggle_buttons:
-   if not(DIRECT) generate
+   if DIRECT='0' generate
       btn_regs:
       process (clk_i)
       begin

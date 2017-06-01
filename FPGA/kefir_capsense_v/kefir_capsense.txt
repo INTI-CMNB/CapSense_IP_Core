@@ -1,7 +1,8 @@
 Revision: 1.6 - mar abr 25 10:49:35 ART 2017
+Revision: 1.6 - mié may 31 13:55:14 -03 2017
 Entity: Kefir_Capsense | Part: iCE40HX4K-TQ144 | Optimized for: N/A | Constrained: 
-Synthesis tool: Lattice 2016.02.27810
-xil_project.pl version: 0.5.9
+Synthesis tool: Lattice 2017.01.27914
+xil_project.pl version: 0.5.12
 
 Flip Flops:    27/3520     0.77 %
 LUTs:          42/3520     1.19 %

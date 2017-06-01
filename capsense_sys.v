@@ -16,8 +16,8 @@
 
 ----------------------------------------------------------------------
 
- Copyright (c) 2016 Salvador E. Tropea <salvador en inti.gob.ar>
- Copyright (c) 2016 Instituto Nacional de Tecnología Industrial
+ Copyright (c) 2016-2017 Salvador E. Tropea <salvador en inti.gob.ar>
+ Copyright (c) 2016-2017 Instituto Nacional de Tecnología Industrial
 
  This file can be distributed under the terms of the GPL 2.0 license
  or newer.
@@ -48,7 +48,7 @@ module CapSense_Sys #(
   input          clk_i,       // System clock
   input          rst_i,       // System reset
   input  [N-1:0] capsense_i,  // Buttons inputs
-  output         capsense_oe, // Buttons OE
+  output         capsense_o,  // Buttons OE
   output [N-1:0] buttons_o,   // Last sample result
   output [N-1:0] debug_o      // Used to measure the button timing
 );
@@ -86,7 +86,7 @@ CapSense #(.N(N)) TheCS
    .ena_i(clkSamp),
    .start_i(clkPoll),
    .buttons_i(capsense_i),
-   .buttons_oe(capsense_oe),
+   .but_oe_o(capsense_o),
    .sampled_o(cur_btns),
    .debug_o(debug_o));
 
