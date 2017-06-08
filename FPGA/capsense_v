@@ -1,5 +1,4 @@
 # xil_tools group 1
 capsense
-capsense_pkg.vhdl
 capsense.v
 capsense_sys.v
